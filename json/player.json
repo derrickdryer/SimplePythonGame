@@ -1,0 +1,10 @@
+{
+    "name": "Player",
+    "level": 1,
+    "health": 100,
+    "mana": 50,
+    "strength": 10,
+    "intelligence": 10,
+    "agility": 10,
+    "wisdom": 10
+}
