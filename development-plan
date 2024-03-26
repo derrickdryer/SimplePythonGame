@@ -1,0 +1,52 @@
+Basic Functions:
+
+    - Main starting art
+        - game logo
+        - player
+        - generic npc
+        - generic enemy
+
+    - Getting player on screen and animate with sprite sheet
+        - Spitesheet and animations
+    - Environment and Collisions
+        - Tiles/Tiles (https://github.com/katmfoo/pygame-tiled-demo)
+    - Main Menu
+        - Start
+            - Asks player for name (Used for save game later)
+        - Load (With restart/erase)
+    <<- Audio
+        >>- Effect sounds
+        - Overarching Background music
+        - Battle music
+    - Save game state
+        - Checkpoints
+    - File with all items, etc
+    - Camera centered on player
+        - maps scrolls with player as long as no collisions
+
+
+
+Advanced Functions:
+
+    - BATTLE SYSTEM
+        - Turned based
+    - Pause menu
+        - Inventory
+        - Player stats
+        - Save button
+        - Exit (Exit with saving)
+    - Shops
+        - Healer
+        - general store
+    - Text Dialog
+        - xbox
+        - non-tree
+        - master dialog file
+    - World interaction
+        - talk to npcs
+        - random items
+    - Random enemy stats
+
+BACKBURNER:
+    - Leveling up and stat point distribution
+    - Dialog tree
