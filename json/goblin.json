@@ -1,0 +1,10 @@
+{
+    "name": "Goblin",
+    "level": 1,
+    "health": 30,
+    "mana": 0,
+    "strength": 5,
+    "intelligence": 2,
+    "agility": 3,
+    "wisdom": 1
+}
