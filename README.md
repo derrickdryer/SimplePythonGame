@@ -15,3 +15,9 @@ A very basic RPG game written in python.
 ### Basic Libraries
 -time
 -random
+
+## Game Controls
+
+Escape: Pause Menu
+Arrow Keys: Move Character
+Left Click: Select Menu Item
