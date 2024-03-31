@@ -1,5 +1,5 @@
 # player.py
-from entity import Entity, EntityNoSprite
+from classes.entity import Entity, EntityNoSprite
 
 class Player(Entity):
     def __init__(self, json_file, sprite_sheet_file, sprite_size):

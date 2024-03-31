@@ -1,5 +1,5 @@
 import random
-from entity import Entity, EntityNoSprite
+from classes.entity import Entity, EntityNoSprite
 
 class GoblinNoSprite(EntityNoSprite):
     def __init__(self, json_file):

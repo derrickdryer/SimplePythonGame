@@ -2,9 +2,9 @@
 
 # Import the necessary libraries
 import pygame, sys
-from entity import Entity, EntityNoSprite
-from player import Player, PlayerNoSprite
-from goblin import GoblinNoSprite
+from classes.entity import Entity, EntityNoSprite
+from classes.player import Player, PlayerNoSprite
+from classes.goblin import GoblinNoSprite
 
 # player = Player('json/player.json', 'assets/sprites/player_spritesheet.png', (32, 32))
 # goblin = Entity('json/goblin.json', 'assets/sprites/goblin_spritesheet.png', (32, 32))
