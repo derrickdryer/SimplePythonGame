@@ -18,7 +18,7 @@ def game(screen):
         result = handle_input(screen, player)
         if result == 'main_menu':
             return 'main_menu'
-        game_logic(player)
+        player = game_logic(player)
         screen.blit(player.image, player.rect)
         pygame.display.flip()
 
@@ -87,13 +87,15 @@ def handle_input(screen, player):
                     return 'main_menu'
     keys = pygame.key.get_pressed()
     if keys[pygame.K_UP]:
-        player.move_up()
-    if keys[pygame.K_DOWN]:
-        player.move_down()
-    if keys[pygame.K_LEFT]:
-        player.move_left()
-    if keys[pygame.K_RIGHT]:
-        player.move_right()
+        player.move('up')
+    elif keys[pygame.K_DOWN]:
+        player.move('down')
+    elif keys[pygame.K_LEFT]:
+        player.move('left')
+    elif keys[pygame.K_RIGHT]:
+        player.move('right')
+    else:
+        player.moving = False
 
     return True
 

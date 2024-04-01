@@ -4,16 +4,22 @@
 import pygame
 import json
 
-# Define entities that will be used as enemies later on
 class Entity(pygame.sprite.Sprite):
+    DIRECTIONS = {'up':1, 'down':0, 'left':3, 'right':2}
     def __init__(self, json_file, sprite_sheet_file, sprite_size):
         super().__init__()
+        self.spritesheet = pygame.image.load(sprite_sheet_file)
+        self.sprite_size = sprite_size
+        self.sprites = self.load_sprites()
+        self.direction = 'down'
+        self.current_sprite = 0
+        self.animation_speed = 1
+        self.moving = False
+        self.scale_sprites(10)
         
         # Read json file
         with open(json_file, 'r') as f:
             attributes = json.load(f)
-        
-        # Load attributes
         self.name = attributes['name']
         self.level = attributes['level']
         self.health = attributes['health']
@@ -22,34 +28,50 @@ class Entity(pygame.sprite.Sprite):
         self.intelligence = attributes['intelligence']
         self.agility = attributes['agility']
         self.wisdom = attributes['wisdom']
-        
-        # Load the sprite sheet
-        self.sprite_sheet = pygame.image.load(sprite_sheet_file).convert_alpha()
-        
-        # Extract the sprites
-        self.sprites = {
-            'up' : [],
-            'down' : [],
-            'left' : [],
-            'right' : []
+
+    def move(self, direction, boundary):
+        if direction == 'up' and self.rect.y > 0:
+            self.rect.y -= self.speed
+        elif direction == 'down' and self.rect.y < boundary[1] - self.rect.height:
+            self.rect.y += self.speed
+        elif direction == 'left' and self.rect.x > 0:
+            self.rect.x -= self.speed
+        elif direction == 'right' and self.rect.x < boundary[0] - self.rect.width:
+            self.rect.x += self.speed
+        self.direction = direction
+        self.moving = True
+
+    def scale_sprites(self, scale_factor):
+        for direction in self.sprites:
+            for i in range(len(self.sprites[direction])):
+                self.sprites[direction][i] = pygame.transform.scale(self.sprites[direction][i], (self.sprite_size[0]*scale_factor, self.sprite_size[1]*scale_factor))
+
+    def load_sprites(self):
+        sprites = {
+            'up': [],
+            'down': [],
+            'left': [],
+            'right': []
         }
-        for y in range(0, self.sprite_sheet.get_height(), sprite_size[1]):
-            for x in range(0, self.sprite_sheet.get_width(), sprite_size[0]):
-                if x // sprite_size[0] < 3:  # Only take the first 3 sprites of each row
-                    sprite = pygame.Surface(sprite_size, pygame.SRCALPHA)
-                    sprite.blit(self.sprite_sheet, (0, 0), (x, y, sprite_size[0], sprite_size[1]))
-                    direction = 'down' if y < sprite_size[1] else 'up' if y < 2*sprite_size[1] else 'left' if y < 3*sprite_size[1] else 'right'
-                    self.sprites[direction].append(sprite)
-        
-        # Initialize current_sprite and animation_speed
-        self.direction = 'down'
-        
-        # Set the current sprite
-        self.image = self.sprites[self.direction][0]
-        self.rect = self.image.get_rect()
-    
+
+        for y in range(4):
+            for x in range(3):
+                sprite = self.spritesheet.subsurface(
+                    x * self.sprite_size[0], y * self.sprite_size[1], self.sprite_size[0], self.sprite_size[1])
+                if y == 0:
+                    sprites['down'].append(sprite)
+                elif y == 1:
+                    sprites['up'].append(sprite)
+                elif y == 2:
+                    sprites['left'].append(sprite)
+                elif y == 3:
+                    sprites['right'].append(sprite)
+
+        return sprites
+
     def update(self):
-        self.current_sprite += 1
-        if self.current_sprite // self.animation_speed >= len(self.sprites[self.direction]):
-            self.current_sprite = 0
-        self.image = self.sprites[self.direction][self.current_sprite // self.animation_speed]
+        if self.moving:
+            self.current_sprite = (self.current_sprite + 1) % 3  # Cycle through the 3 sprites
+        else:
+            self.current_sprite = 0  # Use the idle sprite
+        self.image = self.sprites[self.direction][self.current_sprite]
