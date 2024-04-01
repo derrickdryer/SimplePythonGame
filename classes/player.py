@@ -3,11 +3,11 @@ from classes.entity import *
 
 class Player(Entity):
     def __init__(self, json_file, sprite_sheet_file, sprite_size):
+        self.image = pygame.image.load(sprite_sheet_file)
         super().__init__(json_file, sprite_sheet_file, sprite_size)
         self.inventory = []
         self.exp = 0
-        self.speed = 5
-        self.image = pygame.image.load(sprite_sheet_file)
+        self.speed = 10
         self.rect = self.image.get_rect()
         self.frame_counter = 0
         self.moving = False
@@ -39,3 +39,6 @@ class Player(Entity):
                 x * self.sprite_size[0], Entity.DIRECTIONS[direction] * self.sprite_size[1], self.sprite_size[0], self.sprite_size[1])
             sprites.append(sprite)
         return sprites
+    
+    def check_collision(self, other):
+        return pygame.sprite.collide_mask(self, other)

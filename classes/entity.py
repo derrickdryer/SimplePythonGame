@@ -7,8 +7,9 @@ import json
 class Entity(pygame.sprite.Sprite):
     DIRECTIONS = {'up':1, 'down':0, 'left':3, 'right':2}
     def __init__(self, json_file, sprite_sheet_file, sprite_size):
-        super().__init__()
         self.spritesheet = pygame.image.load(sprite_sheet_file)
+        super().__init__()
+        self.mask = pygame.mask.from_surface(self.image)
         self.sprite_size = sprite_size
         self.sprites = self.load_sprites()
         self.direction = 'down'
@@ -30,14 +31,14 @@ class Entity(pygame.sprite.Sprite):
         self.wisdom = attributes['wisdom']
 
     def move(self, direction, boundary):
-        if direction == 'up' and self.rect.y > 0:
-            self.rect.y -= self.speed
-        elif direction == 'down' and self.rect.y < boundary[1] - self.rect.height:
-            self.rect.y += self.speed
-        elif direction == 'left' and self.rect.x > 0:
-            self.rect.x -= self.speed
-        elif direction == 'right' and self.rect.x < boundary[0] - self.rect.width:
-            self.rect.x += self.speed
+        if direction == 'up':
+            self.rect.y = max(0, self.rect.y - self.speed)
+        elif direction == 'down':
+            self.rect.y = min(boundary[1] - self.rect.height, self.rect.y + self.speed)
+        elif direction == 'left':
+            self.rect.x = max(0, self.rect.x - self.speed)
+        elif direction == 'right':
+            self.rect.x = min(boundary[0] - self.rect.width, self.rect.x + self.speed)
         self.direction = direction
         self.moving = True
 

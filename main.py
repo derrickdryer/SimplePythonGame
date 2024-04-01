@@ -1,8 +1,9 @@
-# app.py
+# main.py
 
 # Import the necessary libraries
 import pygame, sys
 from classes.player import Player
+from map import draw_map
 
 pygame.init()
 
@@ -15,6 +16,7 @@ def game(screen):
     while running:
         clock.tick(60)
         screen.fill((0, 0, 0))
+        draw_map(screen)
         result = handle_input(screen, player)
         if result == 'main_menu':
             return 'main_menu'
