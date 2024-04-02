@@ -1,27 +1,26 @@
-# app.py
+# main.py
 
 # Import the necessary libraries
 import pygame, sys
-from classes.entity import Entity, EntityNoSprite
-from classes.player import Player, PlayerNoSprite
-from classes.goblin import GoblinNoSprite
+from classes.player import Player
+from map import draw_map
 
-# player = Player('json/player.json', 'assets/sprites/player_spritesheet.png', (32, 32))
-# goblin = Entity('json/goblin.json', 'assets/sprites/goblin_spritesheet.png', (32, 32))
-player = PlayerNoSprite('json/player.json')
-goblin = GoblinNoSprite('json/goblin.json')
+pygame.init()
 
 def game(screen):
     running = True
     clock = pygame.time.Clock()
     
+    player = Player('json/player.json', 'assets/spritesheet/player.png', (64, 64))
+    
     while running:
         clock.tick(60)
         screen.fill((0, 0, 0))
-        result = handle_input(screen)
+        draw_map(screen)
+        result = handle_input(screen, player)
         if result == 'main_menu':
             return 'main_menu'
-        game_logic()
+        player = game_logic(player)
         screen.blit(player.image, player.rect)
         pygame.display.flip()
 
@@ -79,8 +78,7 @@ def pause_menu(screen):
                 elif buttons[2].collidepoint(event.pos):  # Main menu button
                     return 'main_menu'
 
-def handle_input(screen):
-    global player # Use the global player variable
+def handle_input(screen, player):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False
@@ -91,25 +89,24 @@ def handle_input(screen):
                     return 'main_menu'
     keys = pygame.key.get_pressed()
     if keys[pygame.K_UP]:
-        player.move_up()
-    if keys[pygame.K_DOWN]:
-        player.move_down()
-    if keys[pygame.K_LEFT]:
-        player.move_left()
-    if keys[pygame.K_RIGHT]:
-        player.move_right()
+        player.move('up')
+    elif keys[pygame.K_DOWN]:
+        player.move('down')
+    elif keys[pygame.K_LEFT]:
+        player.move('left')
+    elif keys[pygame.K_RIGHT]:
+        player.move('right')
+    else:
+        player.moving = False
 
     return True
 
 # Game Logic
-def game_logic():
+def game_logic(player):
     player.update()
-    goblin.update()
-    return player, goblin
+    return player
 
 def main(screen=None):
-    # Initialize Pygame
-    pygame.init()
 
     # Constants
     WIDTH, HEIGHT = 1920, 1080
