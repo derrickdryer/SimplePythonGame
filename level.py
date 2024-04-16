@@ -32,7 +32,7 @@ class Level:
                         if style == 'boundary':
                             Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'boundary', graphics['temp'][0])
                         if style == 'grass':
-                            #random_gradd_image = choice(graphics['grass'])
+                            #random_grass_image = choice(graphics['grass'])
                             #Tile((x,y), [self.visible_sprites], 'grass', random_grass_image)
                             pass
                         if style == 'object':
