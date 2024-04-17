@@ -1,0 +1,31 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "map_test.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -2571.333333333333,
+                "y": 244.66666666666666
+            }
+        }
+    },
+    "last.exportedFilePath": "C:/Users/bytes/Desktop/untitled-game-dev2/assets/map",
+    "last.imagePath": "C:/Users/bytes/Desktop/untitled-game-dev2/assets/tilemap",
+    "map.fixedSize": false,
+    "map.lastUsedExportFilter": "All Files (*)",
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+    ],
+    "project": "boundy_1.tiled-project",
+    "recentFiles": [
+        "map_test.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}
