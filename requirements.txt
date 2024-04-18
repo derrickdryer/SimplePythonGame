@@ -1,2 +1,0 @@
-pygame==2.5.2
-pyscroll==2.31
