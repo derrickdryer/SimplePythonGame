@@ -66,7 +66,6 @@ class Level:
     # Create Attack Method
     def create_attack(self):
         self.current_attack = Weapon(self.player,[self.visible_sprites])
-        print(self.current_attack)
     
     # Create Magic Method // Just prints for now
     def create_magic(self, style, strength, cost):
