@@ -2,6 +2,7 @@ from csv import reader
 from os import walk
 import pygame
 
+# Import Comma Separated Values Layout
 def import_csv_layout(path):
     terrain = []
     with open(path, 'r') as level_file:
@@ -10,7 +11,7 @@ def import_csv_layout(path):
             terrain.append(list(row))
         return terrain
 
-#print(import_csv_layout('./assets/map/map_Boundary.csv'))
+# Import Folder
 def import_folder(path):
     surface_list = []
     for _,__,img_files in walk(path):

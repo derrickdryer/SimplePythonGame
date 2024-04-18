@@ -8,9 +8,9 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('Untitled Game')
         self.clock = pygame.time.Clock()
-        
         self.level = Level()
     
+    # Game Loop
     def run(self):
         self.playing = True
         while True:
@@ -24,6 +24,7 @@ class Game:
             pygame.display.flip()
             self.clock.tick(FPS)
 
+# Main Function
 if __name__ == '__main__':
     game = Game()
     game.run()

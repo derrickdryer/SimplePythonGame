@@ -1,8 +1,10 @@
+# Window Settings
 WIDTH = 1280
 HEIGHT = 720
 FPS = 60
 TILESIZE = 32
 
+# UI Settings
 BAR_HEIGHT = 20
 HEALTH_BAR_WIDTH = 200
 ENERGY_BAR_WIDTH = 200
@@ -10,16 +12,18 @@ ITEM_BOX_SIZE = 80
 UI_FONT = './assets/font/joystix.otf'
 UI_FONT_SIZE = 18
 
+# UI Colors
 WATER_COLOR = '#71ddee'
 UI_BG_COLOR = '#222222'
 UI_BORDER_COLOR = '#111111'
 TEXT_COLOR = '#EEEEEE'
 
+# UI Stats Colors
 HEALTH_COLOR = 'red'
 ENERGY_COLOR = 'blue'
 UI_BORDER_COLOR_ACTIVE = 'gold'
 
-
+# Weapons Dictionary
 WEAPONS_LIST = {
     'sword' : {'cooldown':None, 'damage':None, 'sprite':'./assets/sprites/weapons/placeholder.png'},
     'hammer' : {'cooldown':None, 'damage':None, 'sprite':'./assets/sprites/weapons/placeholder.png'},
@@ -28,6 +32,7 @@ WEAPONS_LIST = {
     'knife' : {'cooldown':None, 'damage':None, 'sprite':'./assets/sprites/weapons/placeholder.png'},
 }
 
+# Magic Dictionary
 MAGIC_DATA = {
     'fireball' : {'strength':5, 'cost':10, 'sprite':'./assets/particles/placeholder.png'},
     'lightning bolt' : {'strength':10, 'cost':20, 'sprite':'./assets/particles/placeholder.png'},

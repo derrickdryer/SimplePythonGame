@@ -11,16 +11,19 @@ from ui import UI
 class Level:
     def __init__(self):
         
+        # Get Display Surface
         self.display_surface = pygame.display.get_surface()
         self.visible_sprites = YSortCameraGroup()
         self.obstacles_sprites = pygame.sprite.Group()
-        
         self.current_attack = None
         
+        # Create Map
         self.create_map()
         
+        # Create UI
         self.ui = UI()
     
+    # Create Map Method
     def create_map(self):
         layout = {
             'boundary' : import_csv_layout('./assets/map/map_Boundary.csv')
@@ -60,22 +63,28 @@ class Level:
             self.destroy_attack,
             self.create_magic)
     
+    # Create Attack Method
     def create_attack(self):
         self.current_attack = Weapon(self.player,[self.visible_sprites])
-        
+        print(self.current_attack)
+    
+    # Create Magic Method // Just prints for now
     def create_magic(self, style, strength, cost):
         print(style, strength, cost)
-        
+    
+    # Destroy Attack Method
     def destroy_attack(self):
         if self.current_attack:
             self.current_attack.kill()
         self.current_attack = None
     
+    # Run Method
     def run(self):
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
         self.ui.display(self.player)
 
+# Camera Handler Class
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
@@ -84,9 +93,11 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.half_height = self.display_surface.get_size()[1] / 2
         self.offset = pygame.math.Vector2()
 
+        # Draw Floor
         self.floor_surf = pygame.image.load('./assets/tilemap/floor.png').convert()
         self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
     
+    # Custom Draw Method
     def custom_draw(self, player):
         self.offset.x = player.rect.centerx - self.half_width
         self.offset.y = player.rect.centery - self.half_height
