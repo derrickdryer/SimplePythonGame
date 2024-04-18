@@ -1,23 +1,17 @@
 # untitled-game
-A very basic RPG game written in python.
+A zelda style pixel-rpg game
 
 ## Libraries
--Pyzrun
 -PyGame
--Pyscroll
-
-### Potential Libraries
--SQLite3
--Pygame GUI
--Pygame.mixer
--PyTMX
-
-### Basic Libraries
--time
+-os
+-sys
+-csv
 -random
 
 ## Game Controls
-
-Escape: Pause Menu
-Arrow Keys: Move Character
-Left Click: Select Menu Item
+Arrow Keys: Character Movement
+WASD: Character Movement
+TAB: Weapon Swap
+Q: Magic Swap
+L SHIFT: Use Magic
+SPACE: Attack
