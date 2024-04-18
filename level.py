@@ -28,7 +28,6 @@ class Level:
         graphics = {
             'temp' : import_folder('./assets/graphics/Boundary')
         }
-        print(graphics)
         for style,layout in layout.items():
             for row_index, row in enumerate(layout):
                 for col_index, col in enumerate(row):

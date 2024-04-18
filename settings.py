@@ -21,9 +21,9 @@ UI_BORDER_COLOR_ACTIVE = 'gold'
 
 
 WEAPONS_LIST = {
-    'sword' : {'cooldown':None, 'damage':None, 'sprite':None},
-    'hammer' : {'cooldown':None, 'damage':None, 'sprite':None},
-    'bow' : {'cooldown':None, 'damage':None, 'sprite':None},
-    'axe' : {'cooldown':None, 'damage':None, 'sprite':None},
-    'knife' : {'cooldown':None, 'damage':None, 'sprite':None},
+    'sword' : {'cooldown':None, 'damage':None, 'sprite':'./assets/sprites/weapons/placeholder.png'},
+    'hammer' : {'cooldown':None, 'damage':None, 'sprite':'./assets/sprites/weapons/placeholder.png'},
+    'spear' : {'cooldown':None, 'damage':None, 'sprite':'./assets/sprites/weapons/placeholder.png'},
+    'axe' : {'cooldown':None, 'damage':None, 'sprite':'./assets/sprites/weapons/placeholder.png'},
+    'knife' : {'cooldown':None, 'damage':None, 'sprite':'./assets/sprites/weapons/placeholder.png'},
 }
