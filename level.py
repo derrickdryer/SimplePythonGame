@@ -47,14 +47,6 @@ class Level:
                             #surf = graphics['object'][int(col)]
                             #Tile((x,y), [self.visible_sprites, self.obstacle_sprites], 'object', surf)
                             pass
-        #for row_index, row in enumerate(WORLD_MAP):
-        #    for col_index, col in enumerate(row):
-        #        x = col_index * TILESIZE
-        #        y = row_index * TILESIZE
-        #        if col == 'x':
-        #            Tile((x,y), [self.visible_sprites, self.obstacles_sprites])
-        #        if col == 'p':
-        #            self.player = Player((x,y), [self.visible_sprites], self.obstacles_sprites)
         self.player = Player(
             (100,100), 
             [self.visible_sprites], 
