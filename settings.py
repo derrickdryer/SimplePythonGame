@@ -41,3 +41,10 @@ MAGIC_DATA = {
     'wind cutter' : {'strength':25, 'cost':50, 'sprite':'./assets/particles/placeholder.png'},
     'self heal' : {'strength':-10, 'cost':20, 'sprite':'./assets/particles/placeholder.png'}
 }
+
+# Enemy Data
+monster_data = {
+    'bat' : {'health' : 100, 'exp': 100, 'damage': 5, 'attack_type': 'bite', 'attack_sound' : None, 'speed' : 4, 'resistance' : 3, 'attack_radius' : 20, 'notice_radius' : 400},
+    'blob' : {'health' : 300, 'exp': 200, 'damage': 20, 'attack_type': 'bludgeon', 'attack_sound' : None, 'speed' : 1, 'resistance' : 8, 'attack_radius' : 10, 'notice_radius' : 200},
+    'zombie' : {'health' : 200, 'exp': 200, 'damage': 30, 'attack_type': 'slash', 'attack_sound' : None, 'speed' : 3, 'resistance' : 5, 'attack_radius' : 30, 'notice_radius' : 300}
+}

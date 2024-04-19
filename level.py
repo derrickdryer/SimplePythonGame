@@ -26,7 +26,8 @@ class Level:
     # Create Map Method
     def create_map(self):
         layout = {
-            'boundary' : import_csv_layout('./assets/map/map_Boundary.csv')
+            'boundary' : import_csv_layout('./assets/map/map_Boundary.csv'),
+            'entities' : import_csv_layout('./assets/map/map_Entities.csv'),
         }
         graphics = {
             'temp' : import_folder('./assets/graphics/Boundary')
@@ -47,13 +48,15 @@ class Level:
                             #surf = graphics['object'][int(col)]
                             #Tile((x,y), [self.visible_sprites, self.obstacle_sprites], 'object', surf)
                             pass
-        self.player = Player(
-            (100,100), 
-            [self.visible_sprites], 
-            self.obstacles_sprites, 
-            self.create_attack, 
-            self.destroy_attack,
-            self.create_magic)
+                        if style == 'entities':
+                            if col == '394':
+                                self.player = Player(
+                                    (100,100), 
+                                    [self.visible_sprites], 
+                                    self.obstacles_sprites, 
+                                    self.create_attack, 
+                                    self.destroy_attack,
+                                    self.create_magic)
     
     # Create Attack Method
     def create_attack(self):
