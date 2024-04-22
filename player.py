@@ -77,7 +77,7 @@ class Player(Entity):
             if keys[pygame.K_SPACE]:
                 self.attacking = True
                 self.attack_time = pygame.time.get_ticks()
-                self.create_attack()
+                print('Attack!')
 
             # Magic Attack
             if keys[pygame.K_LSHIFT]:
@@ -112,19 +112,19 @@ class Player(Entity):
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
             if not 'idle' in self.status and not 'attack' in self.status:
-                self.status = self.status + '_idle'
+                self.status = 'idle_' + self.status
         
         if self.attacking:
             self.direction.x = 0
             self.direction.y = 0
             if not 'attack' in self.status:
                 if 'idle' in self.status:
-                    self.status = self.status.replace('_idle', '_attack')
+                    self.status = self.status.replace('idle_', 'attack_')
                 else:
-                    self.status = self.status + '_attack'
+                    self.status = 'attack_' + self.status
         else:
             if 'attack' in self.status:
-                self.status = self.status.replace('_attack', '')
+                self.status = self.status.replace('attack_', '')
 
     # Animation Handler
     def animate(self):
@@ -140,8 +140,8 @@ class Player(Entity):
     def import_player_assets(self):
         character_path = './assets/sprites/player'
         self.animations = {'up': [], 'down': [], 'left': [], 'right': [],
-            'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
-            'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': []}
+            'idle_up': [], 'idle_down': [], 'idle_left': [], 'idle_right': [],
+            'attack_up': [], 'attack_down': [], 'attack_left': [], 'attack_right': []}
         
         for animation in self.animations.keys():
             full_path = character_path + '/' + animation
@@ -150,8 +150,7 @@ class Player(Entity):
     # Cooldown Handler
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
-        
-        if self.attacking:
+        if self.attacking and self.attack_time is not None:  # Check if self.attack_time is not None
             if current_time - self.attack_time >= self.attacking_cooldown:
                 self.attacking = False
                 self.destroy_attack()

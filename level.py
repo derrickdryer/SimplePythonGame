@@ -26,9 +26,10 @@ class Level:
     # Create Map Method
     def create_map(self):
         layout = {
-            'boundary' : import_csv_layout('./assets/map/map_Boundary.csv'),
+            'boundary' : import_csv_layout('./assets/map/map_boundary_1.csv'),
             'entities' : import_csv_layout('./assets/map/map_Entities.csv'),
         }
+        
         graphics = {
             'temp' : import_folder('./assets/graphics/Boundary')
         }
@@ -36,14 +37,24 @@ class Level:
             for row_index, row in enumerate(layout):
                 for col_index, col in enumerate(row):
                     if col != '-1':
-                        x = col_index * TILESIZE
+                        x = col_index * TILESIZE        
                         y = row_index * TILESIZE
-                        if style == 'boundary':
+
+                        #Stone Walls
+                        if col == '18':
+                            Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'boundary', graphics['temp'][1])
+                        #Wood Walls
+                        if col == '26':
+                            Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'boundary', graphics['temp'][2])
+                        #Wood Walls
+                        if col == '28':
                             Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'boundary', graphics['temp'][0])
-                        if style == 'grass':
-                            #random_grass_image = choice(graphics['grass'])
-                            #Tile((x,y), [self.visible_sprites], 'grass', random_grass_image)
-                            pass
+
+                        #Spawn Player
+                        if col == 'p':
+                            self.player = Player((x,y), [self.visible_sprites], self.obstacles_sprites)
+                            
+                        
                         if style == 'object':
                             #surf = graphics['object'][int(col)]
                             #Tile((x,y), [self.visible_sprites, self.obstacle_sprites], 'object', surf)
@@ -96,8 +107,8 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.offset.x = player.rect.centerx - self.half_width
         self.offset.y = player.rect.centery - self.half_height
 
-        floor_offset_pos = self.floor_rect.topleft - self.offset
-        self.display_surface.blit(self.floor_surf, floor_offset_pos)
+        #floor_offset_pos = self.floor_rect.topleft - self.offset
+        #self.display_surface.blit(self.floor_surf, floor_offset_pos)
 
         for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
             offset_pos = sprite.rect.topleft - self.offset
