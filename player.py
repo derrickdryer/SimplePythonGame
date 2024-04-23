@@ -112,19 +112,19 @@ class Player(Entity):
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
             if not 'idle' in self.status and not 'attack' in self.status:
-                self.status = 'idle_' + self.status
+                self.status = self.status + '_idle'
         
         if self.attacking:
             self.direction.x = 0
             self.direction.y = 0
             if not 'attack' in self.status:
                 if 'idle' in self.status:
-                    self.status = self.status.replace('idle_', 'attack_')
+                    self.status = self.status.replace('_idle', '_attack')
                 else:
                     self.status = 'attack_' + self.status
         else:
             if 'attack' in self.status:
-                self.status = self.status.replace('attack_', '')
+                self.status = self.status.replace('_attack', '')
 
     # Animation Handler
     def animate(self):
@@ -140,8 +140,8 @@ class Player(Entity):
     def import_player_assets(self):
         character_path = './assets/sprites/player'
         self.animations = {'up': [], 'down': [], 'left': [], 'right': [],
-            'idle_up': [], 'idle_down': [], 'idle_left': [], 'idle_right': [],
-            'attack_up': [], 'attack_down': [], 'attack_left': [], 'attack_right': []}
+            'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
+            'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': []}
         
         for animation in self.animations.keys():
             full_path = character_path + '/' + animation

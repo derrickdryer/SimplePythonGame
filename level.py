@@ -44,10 +44,10 @@ class Level:
                         if style == 'walls':
                             #Stone Walls
                             if col == '18':
-                                Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][18])
+                                Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][1])
                             #Wood Walls
                             if col == '26':
-                                Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][26])
+                                Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][5])
                         if style == 'entities':
                             if col == '29':
                                 self.player = Player(
@@ -58,11 +58,11 @@ class Level:
                                     self.destroy_attack,
                                     self.create_magic)
                             else:
-                                if col == '30' : monster_name = 'bat'
-                                elif col == '31' : monster_name = 'blob'
-                                elif col == '32' : monster_name = 'zombie'
-                                elif col == '33' : pass
-                                Enemy(monster_name, (x,y), [self.visible_sprites], self.obstacles_sprites)
+                                if col == '30' : enemy_name = 'bat'
+                                elif col == '31' : enemy_name = 'blob'
+                                elif col == '32' : enemy_name = 'zombie'
+                                elif col == '33' : enemy_name = 'bat'
+                                Enemy(enemy_name, (x,y), [self.visible_sprites], self.obstacles_sprites)
 
     
     # Create Attack Method

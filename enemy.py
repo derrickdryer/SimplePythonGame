@@ -1,15 +1,15 @@
 import pygame
 from settings import *
 from entity import Entity
-from support import *
+from support import import_folder
 
 class Enemy(Entity):
-    def __init__(self, monster_name, pos, groups, obstacles_sprites):
+    def __init__(self, enemy_name, pos, groups, obstacles_sprites):
         super().__init__(groups)
         self.sprite_type = 'enemy'
 
         # Graphics Setup
-        self.import_graphics(monster_name)
+        self.import_graphics(enemy_name)
         self.status = 'idle'
         self.image = self.animations[self.status][self.frame_index]
 
@@ -19,17 +19,16 @@ class Enemy(Entity):
         self.obstacles_sprites = obstacles_sprites
 
         # Enemy Stats
-        self.monster_name = monster_name
-        monster_info = monster_data[self.monster_name]
-        self.health = monster_info['health']
-        self.exp = monster_info['exp']
-        self.attack_damage = monster_info['damage']
-        self.attack_type = monster_info['attack_type']
-        self.attack_sound = monster_info['attack_sound']
-        self.speed = monster_info['speed']
-        self.resistance = monster_info['resistance']
-        self.attack_radius = monster_info['attack_radius']
-        self.notice_radius = monster_info['notice_radius']
+        self.enemy_name = enemy_name
+        enemy_name = monster_data[self.enemy_name]
+        self.health = enemy_name['health']
+        self.exp = enemy_name['exp']
+        self.speed = enemy_name['speed']
+        self.attack_damage = enemy_name['damage']
+        self.resistance = enemy_name['resistance']
+        self.attack_radius = enemy_name['attack_radius']
+        self.notice_radius = enemy_name['notice_radius']
+        self.attack_type = enemy_name['attack_type']
 
         # Player Interaction
         self.can_attack = True
@@ -39,7 +38,7 @@ class Enemy(Entity):
     
     def import_graphics(self, name):
         self.animations = {'idle':[], 'move':[], 'attack':[]}
-        main_path = f'./assets/sprites/enemy/{name}'
+        main_path = f'./assets/enemy/{name}/'
         for animation in self.animations.keys():
             self.animations[animation] = import_folder(main_path + animation)
 
@@ -75,13 +74,14 @@ class Enemy(Entity):
     
     def animate(self):
         animation = self.animations[self.status]
+
         self.frame_index += self.animation_speed
-        if self.frame_index > len(self.animations[self.status]):
+        if self.frame_index >= len(animation):
             if self.status == 'attack':
                 self.can_attack = False
             self.frame_index = 0
-        
         self.image = animation[int(self.frame_index)]
+        self.rect = self.image.get_rect(center = self.hitbox.center)
 
     def cooldown(self):
         if not self.can_attack:
