@@ -7,6 +7,7 @@ from support import *
 from random import choice
 from weapon import Weapon
 from ui import UI
+from enemy import Enemy
 
 class Level:
     def __init__(self):
@@ -26,12 +27,12 @@ class Level:
     # Create Map Method
     def create_map(self):
         layout = {
-            'boundary' : import_csv_layout('./assets/map/map_boundary_1.csv'),
-            'entities' : import_csv_layout('./assets/map/map_Entities.csv'),
+            'walls' : import_csv_layout('./assets/map/map_Walls.csv'),
+            'entities' : import_csv_layout('./assets/map/map_Entity.csv'),
         }
         
         graphics = {
-            'temp' : import_folder('./assets/graphics/Boundary')
+            'tileset' : import_folder('./assets/tileset')
         }
         for style,layout in layout.items():
             for row_index, row in enumerate(layout):
@@ -40,34 +41,29 @@ class Level:
                         x = col_index * TILESIZE        
                         y = row_index * TILESIZE
 
-                        #Stone Walls
-                        if col == '18':
-                            Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'boundary', graphics['temp'][1])
-                        #Wood Walls
-                        if col == '26':
-                            Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'boundary', graphics['temp'][2])
-                        #Wood Walls
-                        if col == '28':
-                            Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'boundary', graphics['temp'][0])
-
-                        #Spawn Player
-                        if col == 'p':
-                            self.player = Player((x,y), [self.visible_sprites], self.obstacles_sprites)
-                            
-                        
-                        if style == 'object':
-                            #surf = graphics['object'][int(col)]
-                            #Tile((x,y), [self.visible_sprites, self.obstacle_sprites], 'object', surf)
-                            pass
+                        if style == 'walls':
+                            #Stone Walls
+                            if col == '18':
+                                Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][18])
+                            #Wood Walls
+                            if col == '26':
+                                Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][26])
                         if style == 'entities':
-                            if col == '394':
+                            if col == '29':
                                 self.player = Player(
-                                    (100,100), 
+                                    (x,y), 
                                     [self.visible_sprites], 
                                     self.obstacles_sprites, 
                                     self.create_attack, 
                                     self.destroy_attack,
                                     self.create_magic)
+                            else:
+                                if col == '30' : monster_name = 'bat'
+                                elif col == '31' : monster_name = 'blob'
+                                elif col == '32' : monster_name = 'zombie'
+                                elif col == '33' : pass
+                                Enemy(monster_name, (x,y), [self.visible_sprites], self.obstacles_sprites)
+
     
     # Create Attack Method
     def create_attack(self):
@@ -87,6 +83,7 @@ class Level:
     def run(self):
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
+        self.visible_sprites.enemy_update(self.player)
         self.ui.display(self.player)
 
 # Camera Handler Class
@@ -99,7 +96,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
         # Draw Floor
-        self.floor_surf = pygame.image.load('./assets/tilemap/floor.png').convert()
+        self.floor_surf = pygame.image.load('./assets/graphics/floor.png').convert()
         self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
     
     # Custom Draw Method
@@ -113,3 +110,9 @@ class YSortCameraGroup(pygame.sprite.Group):
         for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_pos)
+    
+    def enemy_update(self, player):
+        enemy_sprites = [sprite for sprite in self.sprites() if hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'enemy']
+        for enemy in enemy_sprites:
+            enemy.enemy_update(player)
+            enemy.update()
