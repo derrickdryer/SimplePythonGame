@@ -9,6 +9,7 @@ from weapon import Weapon
 from ui import UI
 from enemy import Enemy
 from particles import AnimationPlayer
+from magic import MagicPlayer
 
 class Level:
     def __init__(self):
@@ -28,6 +29,8 @@ class Level:
         self.ui = UI()
         
         self.animation_player = AnimationPlayer()
+        
+        self.magic_player = MagicPlayer(self.animation_player)
     
     # Create Map Method
     def create_map(self):
@@ -82,7 +85,18 @@ class Level:
     
     # Create Magic Method // Just prints for now
     def create_magic(self, style, strength, cost):
-        print(style, strength, cost)
+        if style == 'self heal':
+            self.magic_player.self_heal(self.player, strength, cost, [self.visible_sprites])
+        if style == 'fireball':
+            self.magic_player.fireball(self.player, cost, [self.visible_sprites, self.attack_sprites])
+        if style == 'lightning bolt':
+            self.magic_player.lightning_bolt(self.player, cost, [self.visible_sprites, self.attack_sprites])
+        if style == 'ice shard':
+            self.magic_player.ice_shard(self.player, cost, [self.visible_sprites, self.attack_sprites])
+        if style == 'stone throw':
+            self.magic_player.stone_throw(self.player, cost, [self.visible_sprites, self.attack_sprites])
+        if style == 'wind cutter':
+            self.magic_player.wind_cutter(self.player, cost, [self.visible_sprites, self.attack_sprites])
     
     # Destroy Attack Method
     def destroy_attack(self):

@@ -34,12 +34,12 @@ WEAPONS_LIST = {
 
 # Magic Dictionary
 MAGIC_DATA = {
+    'self heal' : {'strength':10, 'cost':20, 'sprite':'./assets/particles/placeholder.png'},
     'fireball' : {'strength':5, 'cost':10, 'sprite':'./assets/particles/placeholder.png'},
     'lightning bolt' : {'strength':10, 'cost':20, 'sprite':'./assets/particles/placeholder.png'},
     'ice shard' : {'strength':15, 'cost':30, 'sprite':'./assets/particles/placeholder.png'},
     'stone throw' : {'strength':20, 'cost':40, 'sprite':'./assets/particles/placeholder.png'},
-    'wind cutter' : {'strength':25, 'cost':50, 'sprite':'./assets/particles/placeholder.png'},
-    'self heal' : {'strength':-10, 'cost':20, 'sprite':'./assets/particles/placeholder.png'}
+    'wind cutter' : {'strength':25, 'cost':50, 'sprite':'./assets/particles/placeholder.png'}
 }
 
 # Enemy Data

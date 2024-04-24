@@ -163,7 +163,7 @@ class Player(Entity):
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
         if self.attacking:  # Check if self.attack_time is not None
-            if current_time - self.attack_time >= (self.attacking_cooldown + WEAPONS_LIST[self.weapon]['cooldown']):
+            if current_time - self.attack_time >= self.attacking_cooldown + WEAPONS_LIST[self.weapon]['cooldown']:
                 self.attacking = False
                 self.destroy_attack()
         
@@ -183,6 +183,17 @@ class Player(Entity):
         base_damage = self.stats['attack']
         weapon_damage = WEAPONS_LIST[self.weapon]['damage']
         return base_damage + weapon_damage
+
+    def get_full_magic_damage(self):
+        base_damage = self.stats['magic']
+        magic_damage = MAGIC_DATA[self.magic]['strength']
+        return base_damage + magic_damage
+
+    def energy_recovery(self):
+        if self.energy < self.stats['energy']:
+            self.energy += 0.01 * self.stats['magic']
+        else:
+            self.energy = self.stats['energy']
     
     # Update Handler
     def update(self):
@@ -191,3 +202,4 @@ class Player(Entity):
         self.get_status()
         self.animate()
         self.move(self.speed)
+        self.energy_recovery()
