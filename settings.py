@@ -44,7 +44,7 @@ MAGIC_DATA = {
 
 # Enemy Data
 monster_data = {
-    'bat' : {'health' : 100, 'exp': 100, 'damage': 5, 'attack_type': 'bite', 'attack_sound' : None, 'speed' : 2, 'resistance' : 3, 'attack_radius' : 20, 'notice_radius' : 200},
-    'blob' : {'health' : 300, 'exp': 200, 'damage': 20, 'attack_type': 'bludgeon', 'attack_sound' : None, 'speed' : 1, 'resistance' : 5, 'attack_radius' : 10, 'notice_radius' : 100},
-    'zombie' : {'health' : 200, 'exp': 200, 'damage': 30, 'attack_type': 'slash', 'attack_sound' : None, 'speed' : 1, 'resistance' : 3, 'attack_radius' : 30, 'notice_radius' : 150}
+    'bat' : {'health' : 100, 'exp': 100, 'damage': 5, 'attack_type': 'bite', 'attack_sound' : None, 'speed' : 2, 'resistance' : 10, 'attack_radius' : 20, 'notice_radius' : 200},
+    'blob' : {'health' : 300, 'exp': 200, 'damage': 20, 'attack_type': 'bludgeon', 'attack_sound' : None, 'speed' : 1, 'resistance' : 10, 'attack_radius' : 10, 'notice_radius' : 100},
+    'zombie' : {'health' : 200, 'exp': 200, 'damage': 30, 'attack_type': 'slash', 'attack_sound' : None, 'speed' : 1, 'resistance' : 10, 'attack_radius' : 30, 'notice_radius' : 150}
 }
