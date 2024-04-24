@@ -111,7 +111,7 @@ class Player(Entity):
                     self.magic_index += 1
                 else:
                     self.magic_index = 0
-                self.weapon = list(MAGIC_DATA.keys())[self.magic_index]
+                self.magic = list(MAGIC_DATA.keys())[self.magic_index]
     
     # Get Player Status
     def get_status(self):

@@ -7,11 +7,11 @@ class AnimationPlayer:
         self.frames = {
             # Magic
             'fireball' : import_folder('./assets/particles/fireball'),
-            'lightning bolt' : import_folder('./assets/particles/lightning_bolt'),
-            'ice shard' : import_folder('./assets/particles/ice_shard'),
-            'stone throw' : import_folder('./assets/particles/stone_throw'),
-            'wind cutter' : import_folder('./assets/particles/wind_cutter'),
-            'self heal' : import_folder('./assets/particles/self_heal'),
+            'lightning_bolt' : import_folder('./assets/particles/lightning_bolt'),
+            'ice_shard' : import_folder('./assets/particles/ice_shard'),
+            'stone_throw' : import_folder('./assets/particles/stone_throw'),
+            'wind_cutter' : import_folder('./assets/particles/wind_cutter'),
+            'self_heal' : import_folder('./assets/particles/self_heal'),
             
             # Attacks
             'bite' : import_folder('./assets/particles/bite'),

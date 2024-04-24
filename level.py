@@ -85,17 +85,17 @@ class Level:
     
     # Create Magic Method // Just prints for now
     def create_magic(self, style, strength, cost):
-        if style == 'self heal':
+        if style == 'self_heal':
             self.magic_player.self_heal(self.player, strength, cost, [self.visible_sprites])
-        if style == 'fireball':
+        elif style == 'fireball':
             self.magic_player.fireball(self.player, cost, [self.visible_sprites, self.attack_sprites])
-        if style == 'lightning bolt':
+        elif style == 'lightning_bolt':
             self.magic_player.lightning_bolt(self.player, cost, [self.visible_sprites, self.attack_sprites])
-        if style == 'ice shard':
+        elif style == 'ice_shard':
             self.magic_player.ice_shard(self.player, cost, [self.visible_sprites, self.attack_sprites])
-        if style == 'stone throw':
+        elif style == 'stone_throw':
             self.magic_player.stone_throw(self.player, cost, [self.visible_sprites, self.attack_sprites])
-        if style == 'wind cutter':
+        elif style == 'wind_cutter':
             self.magic_player.wind_cutter(self.player, cost, [self.visible_sprites, self.attack_sprites])
     
     # Destroy Attack Method
