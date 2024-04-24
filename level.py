@@ -69,7 +69,7 @@ class Level:
                                 if col == '30' : enemy_name = 'bat'
                                 elif col == '31' : enemy_name = 'blob'
                                 elif col == '32' : enemy_name = 'zombie'
-                                elif col == '33' : enemy_name = 'bat'
+                                elif col == '33' : enemy_name = 'boss'
                                 Enemy(
                                     enemy_name, 
                                     (x,y), 
