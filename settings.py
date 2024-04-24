@@ -25,11 +25,11 @@ UI_BORDER_COLOR_ACTIVE = 'gold'
 
 # Weapons Dictionary
 WEAPONS_LIST = {
-    'sword' : {'cooldown':None, 'damage':None, 'sprite':'./assets/sprites/weapons/placeholder.png'},
-    'hammer' : {'cooldown':None, 'damage':None, 'sprite':'./assets/sprites/weapons/placeholder.png'},
-    'spear' : {'cooldown':None, 'damage':None, 'sprite':'./assets/sprites/weapons/placeholder.png'},
-    'axe' : {'cooldown':None, 'damage':None, 'sprite':'./assets/sprites/weapons/placeholder.png'},
-    'knife' : {'cooldown':None, 'damage':None, 'sprite':'./assets/sprites/weapons/placeholder.png'},
+    'sword' : {'cooldown':200, 'damage':20, 'sprite':'./assets/sprites/weapons/placeholder.png'},
+    'hammer' : {'cooldown':350, 'damage':35, 'sprite':'./assets/sprites/weapons/placeholder.png'},
+    'spear' : {'cooldown':150, 'damage':15, 'sprite':'./assets/sprites/weapons/placeholder.png'},
+    'axe' : {'cooldown':300, 'damage':30, 'sprite':'./assets/sprites/weapons/placeholder.png'},
+    'knife' : {'cooldown':100, 'damage':10, 'sprite':'./assets/sprites/weapons/placeholder.png'},
 }
 
 # Magic Dictionary
@@ -45,6 +45,6 @@ MAGIC_DATA = {
 # Enemy Data
 monster_data = {
     'bat' : {'health' : 100, 'exp': 100, 'damage': 5, 'attack_type': 'bite', 'attack_sound' : None, 'speed' : 2, 'resistance' : 3, 'attack_radius' : 20, 'notice_radius' : 200},
-    'blob' : {'health' : 300, 'exp': 200, 'damage': 20, 'attack_type': 'bludgeon', 'attack_sound' : None, 'speed' : 1, 'resistance' : 8, 'attack_radius' : 10, 'notice_radius' : 100},
-    'zombie' : {'health' : 200, 'exp': 200, 'damage': 30, 'attack_type': 'slash', 'attack_sound' : None, 'speed' : 3, 'resistance' : 5, 'attack_radius' : 30, 'notice_radius' : 150}
+    'blob' : {'health' : 300, 'exp': 200, 'damage': 20, 'attack_type': 'bludgeon', 'attack_sound' : None, 'speed' : 1, 'resistance' : 5, 'attack_radius' : 10, 'notice_radius' : 100},
+    'zombie' : {'health' : 200, 'exp': 200, 'damage': 30, 'attack_type': 'slash', 'attack_sound' : None, 'speed' : 1, 'resistance' : 3, 'attack_radius' : 30, 'notice_radius' : 150}
 }

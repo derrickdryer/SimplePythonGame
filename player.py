@@ -41,12 +41,17 @@ class Player(Entity):
         
         # Player Stats
         self.stats = {'health' : 100, 'energy' : 60, 'attack' : 10, 'magic' : 4, 'speed' : 6}
-        self.health = self.stats['health'] * 0.5
-        self.energy = self.stats['energy'] * 0.8
+        self.health = self.stats['health']
+        self.energy = self.stats['energy']
         self.attack = self.stats['attack']
         self.magic = self.stats['magic']
         self.speed = self.stats['speed']
         self.exp = 10
+        
+        # Damage Timer
+        self.vulnerable = True
+        self.hurt_time = None
+        self.invulnerability_duration = 500
         
     # Input Handler
     def input(self):
@@ -77,7 +82,7 @@ class Player(Entity):
             if keys[pygame.K_SPACE]:
                 self.attacking = True
                 self.attack_time = pygame.time.get_ticks()
-                print('Attack!')
+                self.create_attack()
 
             # Magic Attack
             if keys[pygame.K_LSHIFT]:
@@ -121,7 +126,7 @@ class Player(Entity):
                 if 'idle' in self.status:
                     self.status = self.status.replace('_idle', '_attack')
                 else:
-                    self.status = 'attack_' + self.status
+                    self.status = self.status + '_attack'
         else:
             if 'attack' in self.status:
                 self.status = self.status.replace('_attack', '')
@@ -135,6 +140,13 @@ class Player(Entity):
         
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
+        
+        # Flicker
+        if not self.vulnerable:
+            alpha = self.wave_value()
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(255)
 
     # Graphic Handler
     def import_player_assets(self):
@@ -150,8 +162,8 @@ class Player(Entity):
     # Cooldown Handler
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
-        if self.attacking and self.attack_time is not None:  # Check if self.attack_time is not None
-            if current_time - self.attack_time >= self.attacking_cooldown:
+        if self.attacking:  # Check if self.attack_time is not None
+            if current_time - self.attack_time >= (self.attacking_cooldown + WEAPONS_LIST[self.weapon]['cooldown']):
                 self.attacking = False
                 self.destroy_attack()
         
@@ -162,6 +174,15 @@ class Player(Entity):
         if not self.can_switch_magic:
             if current_time - self.magic_switch_time >= self.switch_duration_cooldown:
                 self.can_switch_magic = True
+        
+        if not self.vulnerable:
+            if current_time - self.hurt_time >= self.invulnerability_duration:
+                self.vulnerable = True
+    
+    def get_full_weapon_damage(self):
+        base_damage = self.stats['attack']
+        weapon_damage = WEAPONS_LIST[self.weapon]['damage']
+        return base_damage + weapon_damage
     
     # Update Handler
     def update(self):
