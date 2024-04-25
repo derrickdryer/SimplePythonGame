@@ -1,8 +1,9 @@
 import pygame
 from settings import *
 from support import import_folder
+from entity import Entity
 
-class Player(pygame.sprite.Sprite):
+class Player(Entity):
     def __init__(self, pos, groups, obstacles_sprites, create_attack, destroy_attack, create_magic):
         super().__init__(groups)
         # Basic Sprite Settings w/ Fallback Image
@@ -13,11 +14,8 @@ class Player(pygame.sprite.Sprite):
         # Animation
         self.import_player_assets()
         self.status = 'down'
-        self.frame_index = 0
-        self.animation_speed = 0.09
 
         # Movement
-        self.direction = pygame.math.Vector2(0, 0)
         self.attacking = False
         self.attacking_cooldown = 500
         self.attack_time = None
@@ -42,13 +40,20 @@ class Player(pygame.sprite.Sprite):
         self.switch_magic_cooldown = 300
         
         # Player Stats
-        self.stats = {'health' : 100, 'energy' : 60, 'attack' : 10, 'magic' : 4, 'speed' : 6}
-        self.health = self.stats['health'] * 0.5
-        self.energy = self.stats['energy'] * 0.8
+        self.stats = {'health' : 100, 'energy' : 60, 'attack' : 10, 'magic' : 4, 'speed' : 3}
+        self.max_stats = {'health' : 500, 'energy' : 300, 'attack' : 50, 'magic' : 20, 'speed' : 10}
+        self.upgrade_cost = {'health' : 100, 'energy' : 100, 'attack' : 100, 'magic' : 100, 'speed' : 100}
+        self.health = self.stats['health']
+        self.energy = self.stats['energy']
         self.attack = self.stats['attack']
         self.magic = self.stats['magic']
         self.speed = self.stats['speed']
-        self.exp = 10
+        self.exp = 5000
+        
+        # Damage Timer
+        self.vulnerable = True
+        self.hurt_time = None
+        self.invulnerability_duration = 500
         
     # Input Handler
     def input(self):
@@ -79,7 +84,7 @@ class Player(pygame.sprite.Sprite):
             if keys[pygame.K_SPACE]:
                 self.attacking = True
                 self.attack_time = pygame.time.get_ticks()
-                print('Attack!')
+                self.create_attack()
 
             # Magic Attack
             if keys[pygame.K_LSHIFT]:
@@ -108,25 +113,25 @@ class Player(pygame.sprite.Sprite):
                     self.magic_index += 1
                 else:
                     self.magic_index = 0
-                self.weapon = list(MAGIC_DATA.keys())[self.magic_index]
+                self.magic = list(MAGIC_DATA.keys())[self.magic_index]
     
     # Get Player Status
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
             if not 'idle' in self.status and not 'attack' in self.status:
-                self.status = 'idle_' + self.status
+                self.status = self.status + '_idle'
         
         if self.attacking:
             self.direction.x = 0
             self.direction.y = 0
             if not 'attack' in self.status:
                 if 'idle' in self.status:
-                    self.status = self.status.replace('idle_', 'attack_')
+                    self.status = self.status.replace('_idle', '_attack')
                 else:
-                    self.status = 'attack_' + self.status
+                    self.status = self.status + '_attack'
         else:
             if 'attack' in self.status:
-                self.status = self.status.replace('attack_', '')
+                self.status = self.status.replace('_attack', '')
 
     # Animation Handler
     def animate(self):
@@ -137,53 +142,30 @@ class Player(pygame.sprite.Sprite):
         
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
+        
+        # Flicker
+        if not self.vulnerable:
+            alpha = self.wave_value()
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(255)
 
     # Graphic Handler
     def import_player_assets(self):
         character_path = './assets/sprites/player'
         self.animations = {'up': [], 'down': [], 'left': [], 'right': [],
-            'idle_up': [], 'idle_down': [], 'idle_left': [], 'idle_right': [],
-            'attack_up': [], 'attack_down': [], 'attack_left': [], 'attack_right': []}
+            'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
+            'up_attack': [], 'down_attack': [], 'left_attack': [], 'right_attack': []}
         
         for animation in self.animations.keys():
             full_path = character_path + '/' + animation
             self.animations[animation] = import_folder(full_path)
-
-    #Movement Handler
-    def move(self, speed):
-        if self.direction.magnitude() != 0:
-            self.direction = self.direction.normalize()
-        
-        self.hitbox.x += self.direction.x * speed
-        self.collision('horizontal')
-        self.hitbox.y += self.direction.y * speed
-        self.collision('vertical')
-        self.rect.center = self.hitbox.center
-    
-    # Collision Handler
-    def collision(self, direction):
-        # Horizontal Collision
-        if direction == 'horizontal':
-            for sprite in self.obstacles_sprites:
-                if sprite.hitbox.colliderect(self.hitbox):
-                    if self.direction.x > 0:
-                        self.hitbox.right = sprite.hitbox.left
-                    if self.direction.x < 0:
-                        self.hitbox.left = sprite.hitbox.right
-        # Vertical Collision
-        if direction == 'vertical':
-            for sprite in self.obstacles_sprites:
-                if sprite.hitbox.colliderect(self.hitbox):
-                    if self.direction.y > 0:
-                        self.hitbox.bottom = sprite.hitbox.top
-                    if self.direction.y < 0:
-                        self.hitbox.top = sprite.hitbox.bottom
     
     # Cooldown Handler
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
-        if self.attacking and self.attack_time is not None:  # Check if self.attack_time is not None
-            if current_time - self.attack_time >= self.attacking_cooldown:
+        if self.attacking:  # Check if self.attack_time is not None
+            if current_time - self.attack_time >= self.attacking_cooldown + WEAPONS_LIST[self.weapon]['cooldown']:
                 self.attacking = False
                 self.destroy_attack()
         
@@ -194,6 +176,32 @@ class Player(pygame.sprite.Sprite):
         if not self.can_switch_magic:
             if current_time - self.magic_switch_time >= self.switch_duration_cooldown:
                 self.can_switch_magic = True
+        
+        if not self.vulnerable:
+            if current_time - self.hurt_time >= self.invulnerability_duration:
+                self.vulnerable = True
+    
+    def get_full_weapon_damage(self):
+        base_damage = self.stats['attack']
+        weapon_damage = WEAPONS_LIST[self.weapon]['damage']
+        return base_damage + weapon_damage
+
+    def get_full_magic_damage(self):
+        base_damage = self.stats['magic']
+        magic_damage = MAGIC_DATA[self.magic]['strength']
+        return base_damage + magic_damage
+
+    def get_value_by_index(self, index):
+        return list(self.stats.values())[index]
+    
+    def get_cost_by_index(self, index):
+        return list(self.upgrade_cost.values())[index]
+
+    def energy_recovery(self):
+        if self.energy < self.stats['energy']:
+            self.energy += 0.01 * self.stats['magic']
+        else:
+            self.energy = self.stats['energy']
     
     # Update Handler
     def update(self):
@@ -201,4 +209,5 @@ class Player(pygame.sprite.Sprite):
         self.cooldowns()
         self.get_status()
         self.animate()
-        self.move(self.speed)
+        self.move(self.stats['speed'])
+        self.energy_recovery()

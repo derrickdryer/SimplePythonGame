@@ -4,33 +4,49 @@ from tile import Tile
 from player import Player
 from debug import debug
 from support import *
-from random import choice
+from random import choice, randint
 from weapon import Weapon
 from ui import UI
+from enemy import Enemy
+from particles import AnimationPlayer
+from magic import MagicPlayer
+from upgrade import Upgrade
+from pause import Pause
 
 class Level:
     def __init__(self):
         
         # Get Display Surface
         self.display_surface = pygame.display.get_surface()
+        self.game_paused = False
+        self.upgrade_paused = False
         self.visible_sprites = YSortCameraGroup()
         self.obstacles_sprites = pygame.sprite.Group()
         self.current_attack = None
+        self.attack_sprites = pygame.sprite.Group()
+        self.attackable_sprites = pygame.sprite.Group()
         
         # Create Map
         self.create_map()
         
         # Create UI
         self.ui = UI()
+        self.pause = Pause()
+        self.upgrade = Upgrade(self.player)
+        
+        self.animation_player = AnimationPlayer()
+        
+        self.magic_player = MagicPlayer(self.animation_player)
     
     # Create Map Method
     def create_map(self):
         layout = {
-            'boundary' : import_csv_layout('./assets/map/map_boundary_1.csv')
+            'walls' : import_csv_layout('./assets/map/map_Walls.csv'),
+            'entities' : import_csv_layout('./assets/map/map_Entity.csv'),
         }
         
         graphics = {
-            'temp' : import_folder('./assets/graphics/Boundary')
+            'tileset' : import_folder('./assets/tileset')
         }
         for style,layout in layout.items():
             for row_index, row in enumerate(layout):
@@ -39,40 +55,55 @@ class Level:
                         x = col_index * TILESIZE        
                         y = row_index * TILESIZE
 
-                        #Stone Walls
-                        if col == '18':
-                            Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'boundary', graphics['temp'][1])
-                        #Wood Walls
-                        if col == '26':
-                            Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'boundary', graphics['temp'][2])
-                        #Wood Walls
-                        if col == '28':
-                            Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'boundary', graphics['temp'][0])
+                        if style == 'walls':
+                            #Stone Walls
+                            if col == '18':
+                                Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][1])
+                            #Wood Walls
+                            if col == '26':
+                                Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][5])
+                        if style == 'entities':
+                            if col == '29':
+                                self.player = Player(
+                                    (x,y), 
+                                    [self.visible_sprites], 
+                                    self.obstacles_sprites, 
+                                    self.create_attack, 
+                                    self.destroy_attack,
+                                    self.create_magic)
+                            else:
+                                if col == '30' : enemy_name = 'bat'
+                                elif col == '31' : enemy_name = 'blob'
+                                elif col == '32' : enemy_name = 'zombie'
+                                elif col == '33' : enemy_name = 'bat'
+                                Enemy(
+                                    enemy_name, 
+                                    (x,y), 
+                                    [self.visible_sprites, self.attackable_sprites], 
+                                    self.obstacles_sprites, 
+                                    self.damage_player, 
+                                    self.trigger_death_particles,
+                                    self.add_exp)
 
-                        #Spawn Player
-                        if col == 'p':
-                            self.player = Player((x,y), [self.visible_sprites], self.obstacles_sprites)
-                            
-                        
-                        if style == 'object':
-                            #surf = graphics['object'][int(col)]
-                            #Tile((x,y), [self.visible_sprites, self.obstacle_sprites], 'object', surf)
-                            pass
-        self.player = Player(
-            (100,100), 
-            [self.visible_sprites], 
-            self.obstacles_sprites, 
-            self.create_attack, 
-            self.destroy_attack,
-            self.create_magic)
     
     # Create Attack Method
     def create_attack(self):
-        self.current_attack = Weapon(self.player,[self.visible_sprites])
+        self.current_attack = Weapon(self.player,[self.visible_sprites, self.attack_sprites])
     
     # Create Magic Method // Just prints for now
     def create_magic(self, style, strength, cost):
-        print(style, strength, cost)
+        if style == 'self_heal':
+            self.magic_player.self_heal(self.player, strength, cost, [self.visible_sprites])
+        elif style == 'fireball':
+            self.magic_player.fireball(self.player, cost, [self.visible_sprites, self.attack_sprites])
+        elif style == 'lightning_bolt':
+            self.magic_player.lightning_bolt(self.player, cost, [self.visible_sprites, self.attack_sprites])
+        elif style == 'ice_shard':
+            self.magic_player.ice_shard(self.player, cost, [self.visible_sprites, self.attack_sprites])
+        elif style == 'stone_throw':
+            self.magic_player.stone_throw(self.player, cost, [self.visible_sprites, self.attack_sprites])
+        elif style == 'wind_cutter':
+            self.magic_player.wind_cutter(self.player, cost, [self.visible_sprites, self.attack_sprites])
     
     # Destroy Attack Method
     def destroy_attack(self):
@@ -80,11 +111,53 @@ class Level:
             self.current_attack.kill()
         self.current_attack = None
     
+    def player_attack_logic(self):
+        for attack_sprite in self.attack_sprites:
+            collision_sprites = pygame.sprite.spritecollide(attack_sprite, self.attackable_sprites, False)
+            if collision_sprites:
+                for target_sprite in collision_sprites:
+                    if target_sprite == 'grass':
+                        pos = target_sprite.rect.center
+                        offset = pygame.math.Vector2(0, 75)
+                        for leaf in range(randint(3,6)):
+                            self.animation_player.create_grass_particles(pos - offset, [self.visible_sprites])
+                        target_sprite.kill()
+                    else:
+                        target_sprite.get_damage(self.player, attack_sprite.sprite_type)
+    
+    def damage_player(self, amount, attack_type):
+        if self.player.vulnerable:
+            self.player.health -= amount
+            self.player.vulnerable = False
+            self.player.hurt_time = pygame.time.get_ticks()
+            # Spawn Particles
+            self.animation_player.create_particles(attack_type, self.player.rect.center, [self.visible_sprites])
+            
+    def trigger_death_particles(self, pos, particle_type):
+        self.animation_player.create_particles(particle_type, pos, [self.visible_sprites])
+    
+    def add_exp(self, amount):
+        self.player.exp += amount
+
+    def toggle_menu(self):
+        self.upgrade_paused = not self.upgrade_paused
+    
+    def pause_menu(self):
+        self.game_paused = not self.game_paused
+    
     # Run Method
     def run(self):
         self.visible_sprites.custom_draw(self.player)
-        self.visible_sprites.update()
         self.ui.display(self.player)
+        if self.game_paused:
+            self.pause.display()
+        elif self.upgrade_paused:
+            self.upgrade.display()
+        else:
+            self.visible_sprites.update()
+            self.visible_sprites.enemy_update(self.player)
+            self.player_attack_logic()
+        
 
 # Camera Handler Class
 class YSortCameraGroup(pygame.sprite.Group):
@@ -96,7 +169,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
         # Draw Floor
-        self.floor_surf = pygame.image.load('./assets/tilemap/floor.png').convert()
+        self.floor_surf = pygame.image.load('./assets/graphics/floor.png').convert()
         self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
     
     # Custom Draw Method
@@ -110,3 +183,9 @@ class YSortCameraGroup(pygame.sprite.Group):
         for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_pos)
+    
+    def enemy_update(self, player):
+        enemy_sprites = [sprite for sprite in self.sprites() if hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'enemy']
+        for enemy in enemy_sprites:
+            enemy.enemy_update(player)
+            enemy.update()

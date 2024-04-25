@@ -1,12 +1,13 @@
 # untitled-game
-A zelda style pixel-rpg game
+A pixel-rpg game
 
 ## Libraries
 -PyGame
--os
+-os: walk
 -sys
--csv
--random
+-csv: reader
+-random: choice, randint
+-math: sin
 
 ## Game Controls
 Arrow Keys: Character Movement
