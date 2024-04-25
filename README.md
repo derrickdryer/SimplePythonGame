@@ -16,3 +16,5 @@ TAB: Weapon Swap
 Q: Magic Swap
 L SHIFT: Use Magic
 SPACE: Attack
+M: Upgrade Menu
+ESC: Pause
