@@ -10,12 +10,16 @@ from ui import UI
 from enemy import Enemy
 from particles import AnimationPlayer
 from magic import MagicPlayer
+from upgrade import Upgrade
+from pause import Pause
 
 class Level:
     def __init__(self):
         
         # Get Display Surface
         self.display_surface = pygame.display.get_surface()
+        self.game_paused = False
+        self.upgrade_paused = False
         self.visible_sprites = YSortCameraGroup()
         self.obstacles_sprites = pygame.sprite.Group()
         self.current_attack = None
@@ -27,6 +31,8 @@ class Level:
         
         # Create UI
         self.ui = UI()
+        self.pause = Pause()
+        self.upgrade = Upgrade(self.player)
         
         self.animation_player = AnimationPlayer()
         
@@ -76,7 +82,8 @@ class Level:
                                     [self.visible_sprites, self.attackable_sprites], 
                                     self.obstacles_sprites, 
                                     self.damage_player, 
-                                    self.trigger_death_particles)
+                                    self.trigger_death_particles,
+                                    self.add_exp)
 
     
     # Create Attack Method
@@ -129,13 +136,28 @@ class Level:
     def trigger_death_particles(self, pos, particle_type):
         self.animation_player.create_particles(particle_type, pos, [self.visible_sprites])
     
+    def add_exp(self, amount):
+        self.player.exp += amount
+
+    def toggle_menu(self):
+        self.upgrade_paused = not self.upgrade_paused
+    
+    def pause_menu(self):
+        self.game_paused = not self.game_paused
+    
     # Run Method
     def run(self):
         self.visible_sprites.custom_draw(self.player)
-        self.visible_sprites.update()
-        self.visible_sprites.enemy_update(self.player)
-        self.player_attack_logic()
         self.ui.display(self.player)
+        if self.game_paused:
+            self.pause.display()
+        elif self.upgrade_paused:
+            self.upgrade.display()
+        else:
+            self.visible_sprites.update()
+            self.visible_sprites.enemy_update(self.player)
+            self.player_attack_logic()
+        
 
 # Camera Handler Class
 class YSortCameraGroup(pygame.sprite.Group):

@@ -18,6 +18,11 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_m:
+                        self.level.toggle_menu()
+                    if event.key == pygame.K_ESCAPE:
+                        self.level.pause_menu()
             
             self.screen.fill((75, 229, 89))
             self.level.run()
