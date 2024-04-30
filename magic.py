@@ -15,7 +15,6 @@ class MagicPlayer:
             self.animation_player.create_particles('self_heal', player.rect.center, groups)
     
     def fireball(self, player, cost, groups):
-        print('Fireball')
         if player.energy >= cost:
             player.energy -= cost
             
@@ -37,7 +36,6 @@ class MagicPlayer:
                     self.animation_player.create_particles('fireball', (x, y), groups)
 
     def lightning_bolt(self, player, cost, groups):
-        print('lightning bolt')
         if player.energy >= cost:
             player.energy -= cost
             
@@ -59,7 +57,6 @@ class MagicPlayer:
                     self.animation_player.create_particles('lightning_bolt', (x, y), groups)
     
     def ice_shard(self, player, cost, groups):
-        print('Ice Shard')
         if player.energy >= cost:
             player.energy -= cost
             
@@ -81,7 +78,6 @@ class MagicPlayer:
                     self.animation_player.create_particles('ice_shard', (x, y), groups)
     
     def stone_throw(self, player, cost, groups):
-        print('stone throw')
         if player.energy >= cost:
             player.energy -= cost
             
@@ -103,7 +99,6 @@ class MagicPlayer:
                     self.animation_player.create_particles('stone_throw', (x, y), groups)
     
     def wind_cutter(self, player, cost, groups):
-        print('wind_cutter')
         if player.energy >= cost:
             player.energy -= cost
             

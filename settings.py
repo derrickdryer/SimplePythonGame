@@ -35,21 +35,21 @@ UPGRADE_BG_COLOR_SELECTED = '#EEEEEE'
 
 # Weapons Dictionary
 WEAPONS_LIST = {
-    'sword' : {'cooldown':200, 'damage':20, 'sprite':'./assets/sprites/weapons/placeholder.png'},
-    'hammer' : {'cooldown':350, 'damage':35, 'sprite':'./assets/sprites/weapons/placeholder.png'},
-    'spear' : {'cooldown':150, 'damage':15, 'sprite':'./assets/sprites/weapons/placeholder.png'},
-    'axe' : {'cooldown':300, 'damage':30, 'sprite':'./assets/sprites/weapons/placeholder.png'},
-    'knife' : {'cooldown':100, 'damage':10, 'sprite':'./assets/sprites/weapons/placeholder.png'},
+    'sword' : {'cooldown':200, 'damage':20, 'sprite':'./assets/sprites/weapons/sword/up.png'},
+    'hammer' : {'cooldown':350, 'damage':35, 'sprite':'./assets/sprites/weapons/hammer/up.png'},
+    'spear' : {'cooldown':150, 'damage':15, 'sprite':'./assets/sprites/weapons/spear/up.png'},
+    'axe' : {'cooldown':300, 'damage':30, 'sprite':'./assets/sprites/weapons/axe/up.png'},
+    'knife' : {'cooldown':100, 'damage':10, 'sprite':'./assets/sprites/weapons/knife/up.png'},
 }
 
 # Magic Dictionary
 MAGIC_DATA = {
     'self_heal' : {'strength':10, 'cost':20, 'sprite':'./assets/particles/placeholder.png'},
-    'fireball' : {'strength':5, 'cost':10, 'sprite':'./assets/particles/placeholder.png'},
+    'fireball' : {'strength':5, 'cost':10, 'sprite':'./assets/particles/fireball/06.png'},
     'lightning_bolt' : {'strength':10, 'cost':20, 'sprite':'./assets/particles/placeholder.png'},
     'ice_shard' : {'strength':15, 'cost':20, 'sprite':'./assets/particles/placeholder.png'},
     'stone_throw' : {'strength':20, 'cost':20, 'sprite':'./assets/particles/placeholder.png'},
-    'wind_cutter' : {'strength':25, 'cost':20, 'sprite':'./assets/particles/placeholder.png'}
+    'wind_cutter' : {'strength':25, 'cost':20, 'sprite':'./assets/particles/wind_cutter/2.png'}
 }
 
 # Enemy Data
