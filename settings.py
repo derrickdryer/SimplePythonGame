@@ -44,7 +44,7 @@ WEAPONS_LIST = {
 
 # Magic Dictionary
 MAGIC_DATA = {
-    'self_heal' : {'strength':10, 'cost':20, 'sprite':'./assets/particles/placeholder.png'},
+    'self_heal' : {'strength':10, 'cost':20, 'sprite':'./assets/particles/self_heal/selfheal_3.png'},
     'fireball' : {'strength':5, 'cost':10, 'sprite':'./assets/particles/fireball/06.png'},
     'lightning_bolt' : {'strength':10, 'cost':20, 'sprite':'./assets/particles/lightning_bolt/4.png'},
     'wind_cutter' : {'strength':25, 'cost':20, 'sprite':'./assets/particles/wind_cutter/2.png'}
@@ -55,5 +55,5 @@ monster_data = {
     'bat' : {'health' : 100, 'exp': 100, 'damage': 5, 'attack_type': 'bite', 'attack_sound' : None, 'speed' : 2, 'resistance' : 10, 'attack_radius' : 30, 'notice_radius' : 200},
     'blob' : {'health' : 300, 'exp': 200, 'damage': 20, 'attack_type': 'bludgeon', 'attack_sound' : None, 'speed' : 1, 'resistance' : 10, 'attack_radius' : 10, 'notice_radius' : 100},
     'zombie' : {'health' : 500, 'exp': 200, 'damage': 30, 'attack_type': 'slash', 'attack_sound' : None, 'speed' : 1, 'resistance' : 10, 'attack_radius' : 20, 'notice_radius' : 150},
-    'boss' : {'health' : 2000, 'exp': 2000, 'damage': 1, 'attack_type': 'bludgeon', 'attack_sound' : None, 'speed' : 1, 'resistance' : 10, 'attack_radius' : 100, 'notice_radius' : 200}
+    'boss' : {'health' : 2000, 'exp': 2000, 'damage': 100, 'attack_type': 'bludgeon', 'attack_sound' : None, 'speed' : 1, 'resistance' : 10, 'attack_radius' : 100, 'notice_radius' : 200}
 }
