@@ -47,8 +47,6 @@ MAGIC_DATA = {
     'self_heal' : {'strength':10, 'cost':20, 'sprite':'./assets/particles/placeholder.png'},
     'fireball' : {'strength':5, 'cost':10, 'sprite':'./assets/particles/fireball/06.png'},
     'lightning_bolt' : {'strength':10, 'cost':20, 'sprite':'./assets/particles/lightning_bolt/4.png'},
-    'ice_shard' : {'strength':15, 'cost':20, 'sprite':'./assets/particles/placeholder.png'},
-    'stone_throw' : {'strength':20, 'cost':20, 'sprite':'./assets/particles/placeholder.png'},
     'wind_cutter' : {'strength':25, 'cost':20, 'sprite':'./assets/particles/wind_cutter/2.png'}
 }
 
