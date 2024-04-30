@@ -44,7 +44,7 @@ class Level:
     def create_map(self):
         layout = {
             'walls' : import_csv_layout('./assets/map/map_Walls.csv'),
-            'entities' : import_csv_layout('./assets/map/map_Entity.csv'),
+            'entities' : import_csv_layout('./assets/map/map_Walls.csv')
         }
         
         graphics = {
@@ -74,27 +74,29 @@ class Level:
                             if col == '39':
                                 Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][39])
                         if style == 'entities':
-                            if col == '45':
-                                self.player = Player(
-                                    (x,y), 
-                                    [self.visible_sprites], 
-                                    self.obstacles_sprites, 
-                                    self.create_attack, 
-                                    self.destroy_attack,
-                                    self.create_magic)
-                            else:
-                                if col == '46' : enemy_name = 'bat'
-                                elif col == '47' : enemy_name = 'blob'
-                                elif col == '48' : enemy_name = 'zombie'
-                                elif col == '49' : enemy_name = 'boss'
-                                Enemy(
-                                    enemy_name, 
-                                    (x,y), 
-                                    [self.visible_sprites, self.attackable_sprites], 
-                                    self.obstacles_sprites, 
-                                    self.damage_player, 
-                                    self.trigger_death_particles,
-                                    self.add_exp)
+                            if col != '-1' and col != '18' and col != '26' and col != '28' and col != '39':
+                                if col == '45':
+                                    self.player = Player(
+                                        (x,y), 
+                                        [self.visible_sprites], 
+                                        self.obstacles_sprites, 
+                                        self.create_attack, 
+                                        self.destroy_attack,
+                                        self.create_magic)
+                                else:
+                                    enemy_name = None
+                                    if col == '46' : enemy_name = 'bat'
+                                    elif col == '47' : enemy_name = 'blob'
+                                    elif col == '48' : enemy_name = 'zombie'
+                                    elif col == '49' : enemy_name = 'boss'
+                                    Enemy(
+                                        enemy_name, 
+                                        (x,y), 
+                                        [self.visible_sprites, self.attackable_sprites], 
+                                        self.obstacles_sprites, 
+                                        self.damage_player, 
+                                        self.trigger_death_particles,
+                                        self.add_exp)
 
     
     # Create Attack Method

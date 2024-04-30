@@ -15,7 +15,10 @@ class Enemy(Entity):
 
         # Movement
         self.rect = self.image.get_rect(topleft = pos)
-        self.hitbox = self.rect.inflate(0, -10)
+        if enemy_name == 'boss':
+            self.hitbox = self.rect.inflate(-10, -10)
+        else:
+            self.hitbox = self.rect.inflate(0, -10)
         self.obstacles_sprites = obstacles_sprites
 
         # Enemy Stats
