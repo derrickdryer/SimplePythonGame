@@ -203,6 +203,12 @@ class Player(Entity):
         else:
             self.energy = self.stats['energy']
     
+    def health_recovery(self):
+        if self.health < self.stats['health']:
+            self.health += 0.0001 * self.stats['health']
+        else:
+            self.health = self.stats['health']
+    
     # Update Handler
     def update(self):
         self.input()
@@ -211,3 +217,4 @@ class Player(Entity):
         self.animate()
         self.move(self.stats['speed'])
         self.energy_recovery()
+        self.health_recovery()
