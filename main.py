@@ -1,6 +1,7 @@
 import pygame, sys
 from settings import *
 from level import Level
+import time
 
 class Game:
     def __init__(self):
@@ -23,6 +24,15 @@ class Game:
                         self.level.toggle_menu()
                     if event.key == pygame.K_ESCAPE:
                         self.level.pause_menu()
+            if self.level.player.health <= 0:
+                self.level.end_game()
+                pygame.display.flip()
+                print('You died! Game Over!')
+                print('Exiting Game...')
+                time.sleep(3)
+                pygame.quit()
+                print('Run the game again to play!')
+                sys.exit()
             
             self.screen.fill((75, 229, 89))
             self.level.run()

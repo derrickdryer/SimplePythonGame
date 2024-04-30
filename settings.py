@@ -14,6 +14,7 @@ ITEM_BOX_SIZE = 80
 UI_FONT = './assets/font/joystix.otf'
 UI_FONT_SIZE = 18
 PAUSE_FONT_SIZE = 200
+END_FONT_SIZE = 175
 
 # UI Colors
 WATER_COLOR = '#71ddee'

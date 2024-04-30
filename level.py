@@ -12,6 +12,7 @@ from particles import AnimationPlayer
 from magic import MagicPlayer
 from upgrade import Upgrade
 from pause import Pause
+from end import End
 
 class Level:
     def __init__(self):
@@ -33,6 +34,7 @@ class Level:
         self.ui = UI()
         self.pause = Pause()
         self.upgrade = Upgrade(self.player)
+        self.end = End()
         
         self.animation_player = AnimationPlayer()
         
@@ -58,12 +60,21 @@ class Level:
                         if style == 'walls':
                             #Stone Walls
                             if col == '18':
-                                Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][1])
+                                Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][18])
                             #Wood Walls
                             if col == '26':
-                                Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][5])
+                                Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][26])
+                            #Rock Wall
+                            if col == '28':
+                                Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][29])
+                            #Invisible Walls
+                            if col == '28':
+                                Tile((x,y), [self.obstacles_sprites], 'walls', graphics['tileset'][0])
+                            #Rock Objects
+                            if col == '39':
+                                Tile((x,y), [self.visible_sprites, self.obstacles_sprites], 'walls', graphics['tileset'][39])
                         if style == 'entities':
-                            if col == '29':
+                            if col == '45':
                                 self.player = Player(
                                     (x,y), 
                                     [self.visible_sprites], 
@@ -72,10 +83,10 @@ class Level:
                                     self.destroy_attack,
                                     self.create_magic)
                             else:
-                                if col == '30' : enemy_name = 'bat'
-                                elif col == '31' : enemy_name = 'blob'
-                                elif col == '32' : enemy_name = 'zombie'
-                                elif col == '33' : enemy_name = 'bat'
+                                if col == '46' : enemy_name = 'bat'
+                                elif col == '47' : enemy_name = 'blob'
+                                elif col == '48' : enemy_name = 'zombie'
+                                elif col == '49' : enemy_name = 'bat'
                                 Enemy(
                                     enemy_name, 
                                     (x,y), 
@@ -144,6 +155,9 @@ class Level:
     
     def pause_menu(self):
         self.game_paused = not self.game_paused
+    
+    def end_game(self):
+        self.end.display()
     
     # Run Method
     def run(self):
