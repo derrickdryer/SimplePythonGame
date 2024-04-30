@@ -165,7 +165,7 @@ class Player(Entity):
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
         if self.attacking:  # Check if self.attack_time is not None
-            if current_time - self.attack_time >= self.attacking_cooldown + WEAPONS_LIST[self.weapon]['cooldown']:
+            if current_time - self.attack_time >= (self.attacking_cooldown + WEAPONS_LIST[self.weapon]['cooldown']):
                 self.attacking = False
                 self.destroy_attack()
         
