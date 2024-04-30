@@ -2,11 +2,15 @@ import pygame
 from settings import *
 from entity import Entity
 from support import import_folder
+from win import Win
+import time
 
 class Enemy(Entity):
     def __init__(self, enemy_name, pos, groups, obstacles_sprites, damage_player, trigger_death_particles, add_exp):
         super().__init__(groups)
         self.sprite_type = 'enemy'
+        
+        self.win = Win()
 
         # Graphics Setup
         self.import_graphics(enemy_name)
@@ -15,7 +19,10 @@ class Enemy(Entity):
 
         # Movement
         self.rect = self.image.get_rect(topleft = pos)
-        self.hitbox = self.rect.inflate(0, -10)
+        if enemy_name == 'boss':
+            self.hitbox = self.rect.inflate(-10, -10)
+        else:
+            self.hitbox = self.rect.inflate(0, -10)
         self.obstacles_sprites = obstacles_sprites
 
         # Enemy Stats
@@ -117,11 +124,21 @@ class Enemy(Entity):
             self.hit_time = pygame.time.get_ticks()
             self.vulnerable = False
     
-    def check_death(self):
+    def check_death(self, enemy_name):
         if self.health <= 0:
             self.kill()
             self.trigger_death_particles(self.rect.center, self.enemy_name)
             self.add_exp(self.exp)
+        if enemy_name == 'boss':
+            if self.health <= 0:
+                self.kill()
+                self.trigger_death_particles(self.rect.center, self.enemy_name)
+                self.win.display()
+                pygame.display.flip()
+                print('You win! Game Over!')
+                print('Exiting Game...')
+                time.sleep(3)
+                pygame.quit()
     
     def hit_reaction(self):
         if not self.vulnerable:
@@ -136,4 +153,4 @@ class Enemy(Entity):
     def enemy_update(self, player):
         self.get_status(player)
         self.actions(player)
-        self.check_death()
+        self.check_death(self.enemy_name)

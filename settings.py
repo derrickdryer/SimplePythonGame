@@ -54,5 +54,6 @@ MAGIC_DATA = {
 monster_data = {
     'bat' : {'health' : 100, 'exp': 100, 'damage': 5, 'attack_type': 'bite', 'attack_sound' : None, 'speed' : 2, 'resistance' : 10, 'attack_radius' : 30, 'notice_radius' : 200},
     'blob' : {'health' : 300, 'exp': 200, 'damage': 20, 'attack_type': 'bludgeon', 'attack_sound' : None, 'speed' : 1, 'resistance' : 10, 'attack_radius' : 10, 'notice_radius' : 100},
-    'zombie' : {'health' : 200, 'exp': 200, 'damage': 30, 'attack_type': 'slash', 'attack_sound' : None, 'speed' : 1, 'resistance' : 10, 'attack_radius' : 20, 'notice_radius' : 150}
+    'zombie' : {'health' : 500, 'exp': 200, 'damage': 30, 'attack_type': 'slash', 'attack_sound' : None, 'speed' : 1, 'resistance' : 10, 'attack_radius' : 20, 'notice_radius' : 150},
+    'boss' : {'health' : 2000, 'exp': 2000, 'damage': 1, 'attack_type': 'bludgeon', 'attack_sound' : None, 'speed' : 1, 'resistance' : 10, 'attack_radius' : 100, 'notice_radius' : 200}
 }

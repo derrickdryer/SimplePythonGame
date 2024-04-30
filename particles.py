@@ -8,8 +8,6 @@ class AnimationPlayer:
             # Magic
             'fireball' : import_folder('./assets/particles/fireball'),
             'lightning_bolt' : import_folder('./assets/particles/lightning_bolt'),
-            'ice_shard' : import_folder('./assets/particles/ice_shard'),
-            'stone_throw' : import_folder('./assets/particles/stone_throw'),
             'wind_cutter' : import_folder('./assets/particles/wind_cutter'),
             'self_heal' : import_folder('./assets/particles/self_heal'),
             
@@ -21,7 +19,8 @@ class AnimationPlayer:
             # Monster Deaths
             'bat' : import_folder('./assets/particles/bat_death'),
             'blob' : import_folder('./assets/particles/blob_death'),
-            'zombie' : import_folder('./assets/particles/zombie_death')
+            'zombie' : import_folder('./assets/particles/zombie_death'),
+            'boss' : import_folder('./assets/particles/boss_death')
             
         }
     def reflect_images(self, frames):
