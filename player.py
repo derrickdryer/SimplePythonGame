@@ -48,7 +48,7 @@ class Player(Entity):
         self.attack = self.stats['attack']
         self.magic = self.stats['magic']
         self.speed = self.stats['speed']
-        self.exp = 5000
+        self.exp = 0
         
         # Damage Timer
         self.vulnerable = True
