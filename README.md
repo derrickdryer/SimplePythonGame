@@ -1,4 +1,4 @@
-# untitled-game
+# Simple Python RPG
 A pixel-rpg game
 
 ## Libraries
